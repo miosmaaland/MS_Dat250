@@ -44,6 +44,8 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField(
         label="Remember me"
     )  # TODO: It would be nice to have this feature implemented, probably by using cookies
+    cookies = BooleanField(label="Cookies")
+    
     submit = SubmitField(label="Sign In", validators=[DataRequired()])
 
 

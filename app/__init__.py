@@ -18,8 +18,10 @@ from flask_limiter.util import get_remote_address
 
 # Instantiate and configure the app
 app = Flask(__name__, template_folder="templates", instance_relative_config=True)
-bcrypt = Bcrypt(app)
 csrf = CSRFProtect(app)
+
+bcrypt = Bcrypt(app)
+
 csrf.init_app(app)
 app.config.from_object(Config)
 login_manager = LoginManager()

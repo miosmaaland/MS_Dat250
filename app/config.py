@@ -14,8 +14,9 @@ Example:
 """
 
 import os
+
 class Config:
-    SECRET_KEY = os.environ.get("SECRET_KEY")
+    SECRET_KEY = os.urandom(32)  # Secret key for the application
     SQLITE3_DATABASE_PATH = "sqlite3.db"  # Path relative to the Flask instance folder
     UPLOADS_FOLDER_PATH = "uploads"  # Path relative to the Flask instance folder
     ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'} # Allowed file extensions for uploads
