@@ -1,4 +1,4 @@
-{% extends "base.html.j2" %}
+{% extends "base.html" %}
 {% block content %}
   <div class="container-flex justify-content-center">
     <div class="row justify-content-center">
@@ -61,8 +61,8 @@
             </div>
             <!--Edit details-->
             <div id="edit-details" style="display: none;">
-              <form action="" method="post" novalidate>
-              {{ form.hidden_tag() }}
+              <form action="" method="post">
+              {{ form.csrf_token }}
                 <div class="mb-2">{{ form.education(class_="form-control") }}</div>
                 <div class="mb-2">{{ form.employment(class_="form-control") }}</div>
                 <div class="mb-2">{{ form.music(class_="form-control") }}</div>

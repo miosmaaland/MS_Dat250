@@ -3,7 +3,7 @@
 from pathlib import Path
 from typing import cast
 
-from flask import Flask, flash, redirect, url_for
+from flask import Flask, flash, redirect, url_for, make_response
 
 from app.config import Config
 from app.database import SQLite3
@@ -17,12 +17,9 @@ from flask_limiter.util import get_remote_address
 
 
 # Instantiate and configure the app
-app = Flask(__name__, template_folder="templates", instance_relative_config=True)
-csrf = CSRFProtect(app)
-
+app = Flask(__name__)
 bcrypt = Bcrypt(app)
-
-csrf.init_app(app)
+csfr = CSRFProtect(app)
 app.config.from_object(Config)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -97,10 +94,14 @@ with app.app_context():
 def add_headers(resp):
     resp.headers['Content-Security-Policy'] = (
     "default-src 'self';"
-    "script-src 'self' cdn.jsdelivr.net;"
-    "style-src 'self' cdn.jsdelivr.net maxcdn.bootstrapcdn.com;"
+    "script-src 'self' cdn.jsdelivr.net 'unsafe-inline';"
+    "style-src 'self' cdn.jsdelivr.net maxcdn.bootstrapcdn.com 'unsafe-inline';"
     "font-src maxcdn.bootstrapcdn.com;"
-)
+    )
+    resp.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    resp.headers['X-Content-Type-Options'] = 'nosniff'
+    # Remove the server header
+    resp.headers['Server'] = ''
     return resp
 
 # Import the routes after the app is configured
